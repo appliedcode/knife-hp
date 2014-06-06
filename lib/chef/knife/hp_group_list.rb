@@ -39,7 +39,7 @@ class Chef
           ui.color('Remote', :bold),
           ui.color('Description', :bold),
         ]
-        netconnection.security_groups.sort_by(&:name).each do |group|
+        connection('network').security_groups.sort_by(&:name).each do |group|
           group.security_group_rules.each do |rule|
             unless rule['protocol'].nil?
               group_list << group.name

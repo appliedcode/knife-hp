@@ -84,28 +84,13 @@ class Chef
         }
         @connection ||= begin
           if type == 'compute'
-            @params.merge({ :version => :v2 })
-            @conn_compute = Fog::HP::Compute.new(@params)
+            @params.merge!({ :provider => 'HP', :version => :v2 })
+            @conn_compute = Fog::Compute.new(@params)
+          elsif type == 'network'
+            @conn_network = Fog::HP::Network.new(@params)
           elsif type == 'block_storage'
             @conn_block_storage = Fog::HP::BlockStorageV2.new(@params)
           end
-                        end
-      end
-
-      def netconnection
-        Chef::Log.debug("hp_auth_uri: #{locate_config_value(:hp_auth_uri)}")
-        Chef::Log.debug("hp_access_key: #{locate_config_value(:hp_access_key)}")
-        Chef::Log.debug("hp_secret_key: #{locate_config_value(:hp_secret_key)}")
-        Chef::Log.debug("hp_tenant_id: #{locate_config_value(:hp_tenant_id)}")
-        Chef::Log.debug("hp_avl_zone: #{region()}")
-        @connection ||= begin
-                          connection = Fog::HP::Network.new(
-            :hp_auth_uri => locate_config_value(:hp_auth_uri),
-            :hp_access_key => locate_config_value(:hp_access_key),
-            :hp_secret_key => locate_config_value(:hp_secret_key),
-            :hp_tenant_id => locate_config_value(:hp_tenant_id),
-            :hp_avl_zone => region()
-            )
                         end
       end
 

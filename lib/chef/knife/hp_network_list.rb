@@ -39,7 +39,7 @@ class Chef
           ui.color('External', :bold),
           ui.color('Shared', :bold),
         ]
-        netconnection.list_networks.body['networks'].sort_by { |h| h['name'] }.each do |network|
+        connection('network').list_networks.body['networks'].sort_by { |h| h['name'] }.each do |network|
           net_list << network['name']
           net_list << network['id']
           net_list << network['tenant_id']
